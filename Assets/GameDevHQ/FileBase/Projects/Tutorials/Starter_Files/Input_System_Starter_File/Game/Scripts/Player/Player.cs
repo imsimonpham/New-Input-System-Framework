@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Game.Scripts.LiveObjects;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 namespace Game.Scripts.Player
 {
@@ -22,6 +23,7 @@ namespace Game.Scripts.Player
         [SerializeField]
         private GameObject _model;
 
+        private PlayerInputActions _input;
 
         private void OnEnable()
         {
@@ -33,7 +35,8 @@ namespace Game.Scripts.Player
             Forklift.onDriveModeEntered += HidePlayer;
             Drone.OnEnterFlightMode += ReleasePlayerControl;
             Drone.onExitFlightmode += ReturnPlayerControl;
-        } 
+        }
+
 
         private void Start()
         {
@@ -46,6 +49,10 @@ namespace Game.Scripts.Player
 
             if (_anim == null)
                 Debug.Log("Failed to connect the Animator");
+
+            //Unity New Input Action
+            _input = new PlayerInputActions();
+            _input.Player.Enable();
         }
 
         private void Update()
@@ -57,18 +64,24 @@ namespace Game.Scripts.Player
 
         private void CalcutateMovement()
         {
-            _playerGrounded = _controller.isGrounded;
+            //Old Unity Input System
+            /*_playerGrounded = _controller.isGrounded;
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
 
             transform.Rotate(transform.up, h);
 
-            var direction = transform.forward * v;
+            var direction = transform.forward * v;*/
+
+            //New Unity Input System
+            _playerGrounded = _controller.isGrounded;
+            var move = _input.Player.Movement.ReadValue<Vector2>();
+            transform.Rotate(transform.up, move.x);
+
+            var direction = transform.forward * move.y;
             var velocity = direction * _speed;
 
-
             _anim.SetFloat("Speed", Mathf.Abs(velocity.magnitude));
-
 
             if (_playerGrounded)
                 velocity.y = 0f;
@@ -77,8 +90,7 @@ namespace Game.Scripts.Player
                 velocity.y += -20f * Time.deltaTime;
             }
             
-            _controller.Move(velocity * Time.deltaTime);                      
-
+            _controller.Move(velocity * Time.deltaTime);
         }
 
         private void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
