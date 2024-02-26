@@ -94,6 +94,78 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Drone"",
+            ""id"": ""9e2c5444-7b5d-4418-b689-a7ba0592b6bb"",
+            ""actions"": [
+                {
+                    ""name"": ""Control"",
+                    ""type"": ""Value"",
+                    ""id"": ""d27d4594-eddf-4961-be06-188ad893505f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""480670ae-e8a0-4b71-9772-7511c5d4e824"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Control"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""8d864850-8888-436e-9053-ec9adc167733"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Control"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""3e050eeb-a227-4752-ae2c-cd35bc0fa35b"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Control"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""d75400c0-24ae-4da5-8b8a-6dd495f7ea84"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Control"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""2d9ff39f-88a8-4298-8f3f-df0db422d885"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Control"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -101,6 +173,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        // Drone
+        m_Drone = asset.FindActionMap("Drone", throwIfNotFound: true);
+        m_Drone_Control = m_Drone.FindAction("Control", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -204,8 +279,58 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Drone
+    private readonly InputActionMap m_Drone;
+    private List<IDroneActions> m_DroneActionsCallbackInterfaces = new List<IDroneActions>();
+    private readonly InputAction m_Drone_Control;
+    public struct DroneActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public DroneActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Control => m_Wrapper.m_Drone_Control;
+        public InputActionMap Get() { return m_Wrapper.m_Drone; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DroneActions set) { return set.Get(); }
+        public void AddCallbacks(IDroneActions instance)
+        {
+            if (instance == null || m_Wrapper.m_DroneActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DroneActionsCallbackInterfaces.Add(instance);
+            @Control.started += instance.OnControl;
+            @Control.performed += instance.OnControl;
+            @Control.canceled += instance.OnControl;
+        }
+
+        private void UnregisterCallbacks(IDroneActions instance)
+        {
+            @Control.started -= instance.OnControl;
+            @Control.performed -= instance.OnControl;
+            @Control.canceled -= instance.OnControl;
+        }
+
+        public void RemoveCallbacks(IDroneActions instance)
+        {
+            if (m_Wrapper.m_DroneActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IDroneActions instance)
+        {
+            foreach (var item in m_Wrapper.m_DroneActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_DroneActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public DroneActions @Drone => new DroneActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
+    }
+    public interface IDroneActions
+    {
+        void OnControl(InputAction.CallbackContext context);
     }
 }

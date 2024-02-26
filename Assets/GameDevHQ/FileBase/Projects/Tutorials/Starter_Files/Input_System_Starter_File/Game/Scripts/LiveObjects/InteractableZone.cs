@@ -38,12 +38,12 @@ namespace Game.Scripts.LiveObjects
         private bool _actionPerformed = false;
         [SerializeField]
         private Sprite _inventoryIcon;
-        [SerializeField]
         private KeyCode _zoneKeyInput;
         [SerializeField]
         private KeyState _keyState;
         [SerializeField]
         private GameObject _marker;
+
 
         private bool _inHoldState = false;
 
@@ -70,6 +70,11 @@ namespace Game.Scripts.LiveObjects
         {
             InteractableZone.onZoneInteractionComplete += SetMarker;
 
+        }
+
+        private void Start()
+        {
+            _zoneKeyInput = KeyCode.E;
         }
 
         private void OnTriggerEnter(Collider other)
