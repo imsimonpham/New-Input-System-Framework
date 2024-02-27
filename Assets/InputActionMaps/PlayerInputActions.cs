@@ -120,13 +120,40 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""id"": ""9e2c5444-7b5d-4418-b689-a7ba0592b6bb"",
             ""actions"": [
                 {
-                    ""name"": ""Control"",
+                    ""name"": ""Movement"",
                     ""type"": ""Value"",
                     ""id"": ""d27d4594-eddf-4961-be06-188ad893505f"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""380cc759-4bdb-40b6-b548-1a55dba18aab"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Vertical"",
+                    ""type"": ""Value"",
+                    ""id"": ""2ebd329f-752b-463d-8f38-625c54ae33f4"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""06fd864d-b952-4893-a586-56113cc36abf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -137,7 +164,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Control"",
+                    ""action"": ""Movement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -148,7 +175,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Control"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -159,7 +186,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Control"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -170,7 +197,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Control"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -181,9 +208,134 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Control"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""9e547717-e167-44e8-a818-deeb39055396"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""c5adffb6-049e-4cf1-83ce-67b746e576f7"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""536ead4e-a774-421e-84e6-ad0587d79fe9"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""cc8b1b34-5450-406e-a583-e9d121506629"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Vertical"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""8dc32037-9e78-4a90-b650-5cee329834b8"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Vertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""77c32780-eb20-4f03-8b08-98427e180122"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Vertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c47126a-9821-4e49-bcf0-6e68cd6fe723"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Laptop"",
+            ""id"": ""48d0b133-63d1-4ce9-a5ee-eb5f95457ffe"",
+            ""actions"": [
+                {
+                    ""name"": ""Hack"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c57b8b0-d8b0-4a8d-8adb-d35a53ca88f6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""bba9e060-41eb-4d8c-ba1a-6b0956ffa9bd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""9273b4d4-68a9-41d8-9baa-86812f23e9d5"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4e1c5e7-a1cc-478b-9093-8b9e9469f674"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -196,7 +348,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Task = m_Player.FindAction("Task", throwIfNotFound: true);
         // Drone
         m_Drone = asset.FindActionMap("Drone", throwIfNotFound: true);
-        m_Drone_Control = m_Drone.FindAction("Control", throwIfNotFound: true);
+        m_Drone_Movement = m_Drone.FindAction("Movement", throwIfNotFound: true);
+        m_Drone_Rotate = m_Drone.FindAction("Rotate", throwIfNotFound: true);
+        m_Drone_Vertical = m_Drone.FindAction("Vertical", throwIfNotFound: true);
+        m_Drone_Exit = m_Drone.FindAction("Exit", throwIfNotFound: true);
+        // Laptop
+        m_Laptop = asset.FindActionMap("Laptop", throwIfNotFound: true);
+        m_Laptop_Hack = m_Laptop.FindAction("Hack", throwIfNotFound: true);
+        m_Laptop_Exit = m_Laptop.FindAction("Exit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -312,12 +471,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     // Drone
     private readonly InputActionMap m_Drone;
     private List<IDroneActions> m_DroneActionsCallbackInterfaces = new List<IDroneActions>();
-    private readonly InputAction m_Drone_Control;
+    private readonly InputAction m_Drone_Movement;
+    private readonly InputAction m_Drone_Rotate;
+    private readonly InputAction m_Drone_Vertical;
+    private readonly InputAction m_Drone_Exit;
     public struct DroneActions
     {
         private @PlayerInputActions m_Wrapper;
         public DroneActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Control => m_Wrapper.m_Drone_Control;
+        public InputAction @Movement => m_Wrapper.m_Drone_Movement;
+        public InputAction @Rotate => m_Wrapper.m_Drone_Rotate;
+        public InputAction @Vertical => m_Wrapper.m_Drone_Vertical;
+        public InputAction @Exit => m_Wrapper.m_Drone_Exit;
         public InputActionMap Get() { return m_Wrapper.m_Drone; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -327,16 +492,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_DroneActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_DroneActionsCallbackInterfaces.Add(instance);
-            @Control.started += instance.OnControl;
-            @Control.performed += instance.OnControl;
-            @Control.canceled += instance.OnControl;
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+            @Rotate.started += instance.OnRotate;
+            @Rotate.performed += instance.OnRotate;
+            @Rotate.canceled += instance.OnRotate;
+            @Vertical.started += instance.OnVertical;
+            @Vertical.performed += instance.OnVertical;
+            @Vertical.canceled += instance.OnVertical;
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
         }
 
         private void UnregisterCallbacks(IDroneActions instance)
         {
-            @Control.started -= instance.OnControl;
-            @Control.performed -= instance.OnControl;
-            @Control.canceled -= instance.OnControl;
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+            @Rotate.started -= instance.OnRotate;
+            @Rotate.performed -= instance.OnRotate;
+            @Rotate.canceled -= instance.OnRotate;
+            @Vertical.started -= instance.OnVertical;
+            @Vertical.performed -= instance.OnVertical;
+            @Vertical.canceled -= instance.OnVertical;
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
         }
 
         public void RemoveCallbacks(IDroneActions instance)
@@ -354,6 +537,60 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public DroneActions @Drone => new DroneActions(this);
+
+    // Laptop
+    private readonly InputActionMap m_Laptop;
+    private List<ILaptopActions> m_LaptopActionsCallbackInterfaces = new List<ILaptopActions>();
+    private readonly InputAction m_Laptop_Hack;
+    private readonly InputAction m_Laptop_Exit;
+    public struct LaptopActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public LaptopActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Hack => m_Wrapper.m_Laptop_Hack;
+        public InputAction @Exit => m_Wrapper.m_Laptop_Exit;
+        public InputActionMap Get() { return m_Wrapper.m_Laptop; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(LaptopActions set) { return set.Get(); }
+        public void AddCallbacks(ILaptopActions instance)
+        {
+            if (instance == null || m_Wrapper.m_LaptopActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_LaptopActionsCallbackInterfaces.Add(instance);
+            @Hack.started += instance.OnHack;
+            @Hack.performed += instance.OnHack;
+            @Hack.canceled += instance.OnHack;
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
+        }
+
+        private void UnregisterCallbacks(ILaptopActions instance)
+        {
+            @Hack.started -= instance.OnHack;
+            @Hack.performed -= instance.OnHack;
+            @Hack.canceled -= instance.OnHack;
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
+        }
+
+        public void RemoveCallbacks(ILaptopActions instance)
+        {
+            if (m_Wrapper.m_LaptopActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ILaptopActions instance)
+        {
+            foreach (var item in m_Wrapper.m_LaptopActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_LaptopActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public LaptopActions @Laptop => new LaptopActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -361,6 +598,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public interface IDroneActions
     {
-        void OnControl(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
+        void OnVertical(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
+    }
+    public interface ILaptopActions
+    {
+        void OnHack(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
     }
 }

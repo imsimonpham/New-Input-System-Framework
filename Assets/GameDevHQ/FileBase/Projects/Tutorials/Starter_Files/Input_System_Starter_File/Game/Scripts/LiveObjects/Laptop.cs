@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 namespace Game.Scripts.LiveObjects
 {
@@ -23,15 +24,52 @@ namespace Game.Scripts.LiveObjects
         public static event Action onHackComplete;
         public static event Action onHackEnded;
 
+        private PlayerInputActions _input;
+
         private void OnEnable()
         {
             InteractableZone.onHoldStarted += InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded += InteractableZone_onHoldEnded;
         }
 
-        private void Update()
+        //New Input system
+        private void Start()
+        {
+            _input = new PlayerInputActions();
+            _input.Laptop.Enable();
+            _input.Laptop.Hack.performed += Hack_performed;
+            _input.Laptop.Exit.performed += Exit_performed;
+        }
+
+        private void Exit_performed(InputAction.CallbackContext context)
         {
             if (_hacked == true)
+            {
+                _hacked = false;
+                onHackEnded?.Invoke();
+                ResetCameras();
+            }
+        }
+
+        private void Hack_performed(InputAction.CallbackContext context)
+        {
+            if(_hacked == true)
+            {
+                var previous = _activeCamera;
+                _activeCamera++;
+
+                if (_activeCamera >= _cameras.Length)
+                    _activeCamera = 0;
+
+                _cameras[_activeCamera].Priority = 11;
+                _cameras[previous].Priority = 9;
+            }
+        }
+
+        private void Update()
+        {
+            //Old Input system
+            /*if (_hacked == true)
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -53,7 +91,7 @@ namespace Game.Scripts.LiveObjects
                     onHackEnded?.Invoke();
                     ResetCameras();
                 }
-            }
+            }*/
         }
 
         void ResetCameras()
