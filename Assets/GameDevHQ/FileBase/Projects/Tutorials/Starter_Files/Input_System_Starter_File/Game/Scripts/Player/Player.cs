@@ -50,7 +50,7 @@ namespace Game.Scripts.Player
             if (_anim == null)
                 Debug.Log("Failed to connect the Animator");
 
-            //Unity New Input Action
+            //Unity New Input Actions
             _input = new PlayerInputActions();
             _input.Player.Enable();
         }

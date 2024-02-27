@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.Scripts.UI;
-
+using UnityEngine.InputSystem;
 
 namespace Game.Scripts.LiveObjects
 {
@@ -38,11 +38,15 @@ namespace Game.Scripts.LiveObjects
         private bool _actionPerformed = false;
         [SerializeField]
         private Sprite _inventoryIcon;
+        //[SerializeField]
         private KeyCode _zoneKeyInput;
         [SerializeField]
         private KeyState _keyState;
         [SerializeField]
         private GameObject _marker;
+
+        //Unity New Input System
+        private PlayerInputActions _input;
 
 
         private bool _inHoldState = false;
@@ -56,8 +60,7 @@ namespace Game.Scripts.LiveObjects
             }
             set
             {
-                _currentZoneID = value; 
-                         
+                _currentZoneID = value;           
             }
         }
 
@@ -69,12 +72,68 @@ namespace Game.Scripts.LiveObjects
         private void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += SetMarker;
-
         }
 
+        //New Input System
         private void Start()
         {
             _zoneKeyInput = KeyCode.E;
+
+            _input = new PlayerInputActions();
+            _input.Player.Enable();
+            _input.Player.Task.started += Task_started;
+            _input.Player.Task.canceled += Task_canceled;
+        } 
+
+        private void Task_started(InputAction.CallbackContext context)
+        {
+            if (_inZone)
+            {
+                if (_keyState != KeyState.PressHold)
+                {
+                    switch (_zoneType)
+                    {
+                        case ZoneType.Collectable:
+                            if (_itemsCollected == false)
+                            {
+                                CollectItems();
+                                _itemsCollected = true;
+                                UIManager.Instance.DisplayInteractableZoneMessage(false);
+                            }
+                            break;
+
+                        case ZoneType.Action:
+                            if (_actionPerformed == false)
+                            {
+                                PerformAction();
+                                _actionPerformed = true;
+                                UIManager.Instance.DisplayInteractableZoneMessage(false);
+                            }
+                            break;
+                    }
+                }
+                else if (_keyState == KeyState.PressHold && _inHoldState == false)
+                {
+                    _inHoldState = true;
+
+                    switch (_zoneType)
+                    {
+                        case ZoneType.HoldAction:
+                            PerformHoldAction();
+                            break;
+                    }
+                }
+            }
+
+        }
+
+        private void Task_canceled(InputAction.CallbackContext context)
+        {
+            if (_inZone && _keyState == KeyState.PressHold)
+            {
+                _inHoldState = false;
+                onHoldEnded?.Invoke(_zoneID);
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -127,9 +186,9 @@ namespace Game.Scripts.LiveObjects
 
         private void Update()
         {
-            if (_inZone == true)
+            //Old Input System
+            /*if (_inZone == true)
             {
-
                 if (Input.GetKeyDown(_zoneKeyInput) && _keyState != KeyState.PressHold)
                 {
                     //press
@@ -158,8 +217,6 @@ namespace Game.Scripts.LiveObjects
                 {
                     _inHoldState = true;
 
-                   
-
                     switch (_zoneType)
                     {                      
                         case ZoneType.HoldAction:
@@ -173,9 +230,7 @@ namespace Game.Scripts.LiveObjects
                     _inHoldState = false;
                     onHoldEnded?.Invoke(_zoneID);
                 }
-
-               
-            }
+            }*/
         }
        
         private void CollectItems()
