@@ -112,7 +112,6 @@ namespace Game.Scripts.LiveObjects
             _brakeOff[rng].constraints = RigidbodyConstraints.None;
             _brakeOff[rng].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
             _brakeOff.Remove(_brakeOff[rng]);
-            Debug.Log("Broke");
         }
 
         IEnumerator PunchDelay()
