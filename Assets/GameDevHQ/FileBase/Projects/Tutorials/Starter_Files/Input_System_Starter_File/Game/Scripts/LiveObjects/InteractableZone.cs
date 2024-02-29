@@ -138,6 +138,7 @@ namespace Game.Scripts.LiveObjects
 
         private void OnTriggerEnter(Collider other)
         {
+            _input.Player.Task.Enable();
             if (other.CompareTag("Player") && _currentZoneID > _requiredID)
             {
                 switch (_zoneType)

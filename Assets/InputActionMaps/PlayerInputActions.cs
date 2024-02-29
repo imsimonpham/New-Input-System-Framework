@@ -472,6 +472,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Crate"",
+            ""id"": ""ac9061bc-1545-4f16-995d-602c6569568b"",
+            ""actions"": [
+                {
+                    ""name"": ""Break"",
+                    ""type"": ""Button"",
+                    ""id"": ""a27634c1-a210-43da-a1e3-1c63349ed5e0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""4c8140aa-0460-4239-a348-245288aeaacc"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""Hold(pressPoint=0.2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Break"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -495,6 +523,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Forklift_Movement = m_Forklift.FindAction("Movement", throwIfNotFound: true);
         m_Forklift_Exit = m_Forklift.FindAction("Exit", throwIfNotFound: true);
         m_Forklift_Lift = m_Forklift.FindAction("Lift", throwIfNotFound: true);
+        // Crate
+        m_Crate = asset.FindActionMap("Crate", throwIfNotFound: true);
+        m_Crate_Break = m_Crate.FindAction("Break", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -792,6 +823,52 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public ForkliftActions @Forklift => new ForkliftActions(this);
+
+    // Crate
+    private readonly InputActionMap m_Crate;
+    private List<ICrateActions> m_CrateActionsCallbackInterfaces = new List<ICrateActions>();
+    private readonly InputAction m_Crate_Break;
+    public struct CrateActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public CrateActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Break => m_Wrapper.m_Crate_Break;
+        public InputActionMap Get() { return m_Wrapper.m_Crate; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CrateActions set) { return set.Get(); }
+        public void AddCallbacks(ICrateActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CrateActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CrateActionsCallbackInterfaces.Add(instance);
+            @Break.started += instance.OnBreak;
+            @Break.performed += instance.OnBreak;
+            @Break.canceled += instance.OnBreak;
+        }
+
+        private void UnregisterCallbacks(ICrateActions instance)
+        {
+            @Break.started -= instance.OnBreak;
+            @Break.performed -= instance.OnBreak;
+            @Break.canceled -= instance.OnBreak;
+        }
+
+        public void RemoveCallbacks(ICrateActions instance)
+        {
+            if (m_Wrapper.m_CrateActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICrateActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CrateActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CrateActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CrateActions @Crate => new CrateActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -814,5 +891,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
         void OnLift(InputAction.CallbackContext context);
+    }
+    public interface ICrateActions
+    {
+        void OnBreak(InputAction.CallbackContext context);
     }
 }
