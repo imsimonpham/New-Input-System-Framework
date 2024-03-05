@@ -115,7 +115,9 @@ namespace Game.Scripts.LiveObjects
 
             // New Input System
             var rotate = _input.Drone.Rotate.ReadValue<float>();
-            transform.Rotate(Vector3.up * Time.deltaTime * 30f * rotate * _speed, Space.Self);
+            var tempRot = transform.localRotation.eulerAngles;
+            tempRot.y += rotate * _speed / 3;
+            transform.localRotation = Quaternion.Euler(tempRot);
         }
 
         private void CalculateMovementFixedUpdate()
@@ -147,11 +149,14 @@ namespace Game.Scripts.LiveObjects
             else if (Input.GetKey(KeyCode.S))
                 transform.rotation = Quaternion.Euler(-30, transform.localRotation.eulerAngles.y, 0);
             else 
-                transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, 0);*/
+                transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, 0);
+            Debug.Log("Horizontal: " + Input.GetAxisRaw("Horizontal"));
+            Debug.Log("Vertical: "  + Input.GetAxisRaw("Vertical"));*/
 
             //New Input System
             var move = _input.Drone.Movement.ReadValue<Vector2>();
             transform.Translate(new Vector3(move.x, 0, move.y) * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(move.y * 30, transform.localRotation.eulerAngles.y, move.x * -30);
         }
 
         private void OnDisable()

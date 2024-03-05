@@ -822,7 +822,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""983c9a74-8809-48ed-91c3-18b2df589dd2"",
                     ""path"": ""<XInputController>/buttonWest"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold(pressPoint=0.2)"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Break"",
