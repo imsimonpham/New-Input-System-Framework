@@ -115,9 +115,13 @@ namespace Game.Scripts.LiveObjects
 
             // New Input System
             var rotate = _input.Drone.Rotate.ReadValue<float>();
+            Debug.Log("Rotate: " + rotate);
             var tempRot = transform.localRotation.eulerAngles;
-            tempRot.y += rotate * _speed / 3;
-            transform.localRotation = Quaternion.Euler(tempRot);
+            Debug.Log("TempRot: " + tempRot);
+            if(rotate != 0) {
+                tempRot.y += rotate * _speed / 3;
+                transform.localRotation = Quaternion.Euler(tempRot);
+            }
         }
 
         private void CalculateMovementFixedUpdate()
